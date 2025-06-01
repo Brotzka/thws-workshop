@@ -18,12 +18,27 @@ services:
     container_name: laravel_nginx
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "10000:80"
     volumes:
       - ./:/var/www
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
     networks:
       - laravel_net
+    depends_on:
+      - app
+
+  bun:
+    image: oven/bun:latest
+    container_name: laravel_bun
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    ports:
+      - "10001:10001"
+    networks:
+      - laravel_net
+    command: tail -f /dev/null
     depends_on:
       - app
 
@@ -41,7 +56,7 @@ services:
     networks:
       - laravel_net
     ports:
-      - "10001:3306"
+      - "10002:3306"
 
 networks:
   laravel_net:

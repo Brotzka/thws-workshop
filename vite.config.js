@@ -10,4 +10,15 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    server: {
+        host: '0.0.0.0',
+        port: 10001,
+        hmr: {
+            host: 'localhost',
+            port: 10001
+        },
+        watch: {
+            usePolling: true
+        }
+    },
 });

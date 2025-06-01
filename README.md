@@ -1,61 +1,136 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Workshop Projekt
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Dieses Projekt ist eine Laravel-Anwendung mit Docker-Containerisierung für die Entwicklungsumgebung.
 
-## About Laravel
+## Systemanforderungen
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Docker Desktop
+- Git
+- Mindestens 4GB RAM für Docker
+- Mindestens 10GB freier Speicherplatz
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Repository klonen:
+```bash
+git clone [repository-url]
+cd [projekt-name]
+```
 
-## Learning Laravel
+2. Umgebungsvariablen konfigurieren:
+```bash
+cp .env.example .env
+```
+Bearbeiten Sie die `.env`-Datei und passen Sie die Datenbank-Einstellungen an:
+```env
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=workshop
+DB_USERNAME=admin
+DB_PASSWORD=password
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3. Docker-Container starten:
+```bash
+docker compose up -d --build
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+4. Composer-Abhängigkeiten installieren:
+```bash
+docker compose exec app composer install
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+5. Laravel-Konfiguration:
+```bash
+docker compose exec app php artisan key:generate
+docker compose exec app php artisan migrate
+```
 
-## Laravel Sponsors
+6. Frontend-Abhängigkeiten installieren:
+```bash
+docker compose exec bun bun install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Entwicklungsumgebung
 
-### Premium Partners
+Die Anwendung ist über folgende URLs erreichbar:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- Laravel-Anwendung: http://localhost:10000
+- Vite-Dev-Server: http://localhost:10001
 
-## Contributing
+### Container-Übersicht
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **app**: PHP 8.4 mit Laravel
+- **nginx**: Webserver
+- **bun**: Frontend-Entwicklung mit Vite
+- **db**: MySQL 8.0 Datenbank
 
-## Code of Conduct
+### Nützliche Befehle
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### Laravel-Befehle
+```bash
+# Artisan-Befehle ausführen
+docker compose exec app php artisan [befehl]
 
-## Security Vulnerabilities
+# Composer-Befehle ausführen
+docker compose exec app composer [befehl]
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### Frontend-Befehle
+```bash
+# Vite-Dev-Server starten
+docker compose exec bun bun run dev
 
-## License
+# Frontend-Assets bauen
+docker compose exec bun bun run build
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# In den Bun-Container einsteigen
+docker compose exec bun bash
+```
+
+#### Docker-Befehle
+```bash
+# Container neu starten
+docker compose restart
+
+# Container stoppen
+docker compose down
+
+# Logs anzeigen
+docker compose logs -f [service-name]
+```
+
+## Datenbank
+
+Die MySQL-Datenbank ist über folgende Einstellungen erreichbar:
+- Host: localhost
+- Port: 10002
+- Datenbank: workshop
+- Benutzer: admin
+- Passwort: password
+
+## Fehlerbehebung
+
+### Vite-Dev-Server nicht erreichbar
+1. Prüfen Sie, ob der Bun-Container läuft:
+```bash
+docker compose ps
+```
+
+2. Vite neu starten:
+```bash
+docker compose exec bun bun run dev
+```
+
+### Datenbank-Verbindungsprobleme
+1. Prüfen Sie die `.env`-Datei
+2. Container neu starten:
+```bash
+docker compose restart
+```
+
+### Berechtigungsprobleme
+```bash
+docker compose exec app chown -R www-data:www-data /var/www
+```
