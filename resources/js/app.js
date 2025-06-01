@@ -1,3 +1,11 @@
 import './bootstrap';
+import 'bootstrap';
 
-console.log("Fooo Bar!")
+import { createApp } from 'vue';
+import AlertButton from './components/AlertButton.vue';
+
+const app = createApp({})
+
+app.component('alert-button', AlertButton);
+
+app.mount('#app');
