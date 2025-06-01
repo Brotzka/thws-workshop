@@ -21,7 +21,7 @@ cd [projekt-name]
 ```bash
 cp .env.example .env
 ```
-Bearbeiten Sie die `.env`-Datei und passen Sie die Datenbank-Einstellungen an:
+Bearbeiten Sie die `.env`-Datei und passen Sie die Datenbank-Einstellungen an (sollte eigentlich schon passiert sein):
 ```env
 DB_CONNECTION=mysql
 DB_HOST=db
