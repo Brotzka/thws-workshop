@@ -3,9 +3,7 @@
 @section('title', 'Willkommen')
 
 @section('content')
-
     <div>
-        <h1>Foo</h1>
-        <alert-button />
+        <h1>Willkommen zum Workshop!</h1>
     </div>
 @endsection
