@@ -11,10 +11,10 @@
 <body>
     <div id="app">
         @include('partials.navigation')
+        @include('partials.validation-errors')
+        @include('partials.notification')
         <main class="container">
-            <div class="text-center mt-5">
-                @yield('content')
-            </div>
+            @yield('content')
         </main>
     </div>
 </body>
