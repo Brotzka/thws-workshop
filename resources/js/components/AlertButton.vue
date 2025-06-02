@@ -19,7 +19,7 @@ export default {
     },
     methods: {
         alertClick() {
-            alert('Alert clicked');
+            alert('Alert clicked')
         }
     }
 }

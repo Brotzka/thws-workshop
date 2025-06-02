@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: laravel_app
+    container_name: app
     restart: unless-stopped
     working_dir: /var/www/
     volumes:
@@ -15,7 +15,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: laravel_nginx
+    container_name: nginx
     restart: unless-stopped
     ports:
       - "10000:80"
@@ -29,7 +29,7 @@ services:
 
   bun:
     image: oven/bun:latest
-    container_name: laravel_bun
+    container_name: bun
     restart: unless-stopped
     working_dir: /var/www
     volumes:
@@ -44,7 +44,7 @@ services:
 
   db:
     image: mysql:8.0
-    container_name: laravel_db
+    container_name: db
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
