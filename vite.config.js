@@ -29,10 +29,19 @@ export default defineConfig({
         port: 10001,
         hmr: {
             host: 'localhost',
-            port: 10001
+            port: 10001,
+            protocol: 'ws',
+            clientPort: 10001
         },
         watch: {
             usePolling: true
         }
     },
+    optimizeDeps: {
+        include: ['vue']
+    },
+    build: {
+        target: 'esnext',
+        minify: 'esbuild'
+    }
 });
